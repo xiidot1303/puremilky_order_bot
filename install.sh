@@ -31,7 +31,7 @@ sed -i "s/<csrf_trusted_origins>/$domain/g" ".env"
 
 createdb $project_title
 
-pip install -r requirements.txt
+pipenv install --deploy --ignore-pipfile
 
 python manage.py migrate --skip-checks
 python manage.py makemigrations app
