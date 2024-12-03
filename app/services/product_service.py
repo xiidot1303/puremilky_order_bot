@@ -2,6 +2,12 @@ from app.models import Product, Category
 from asgiref.sync import sync_to_async
 
 
+@sync_to_async
+def filter_products_by_category(category_id):
+    query = Product.objects.filter(category__id=category_id)
+    return query
+
+
 async def update_categories_using_data(data: dict):
     new_categories = []
     updated_categories = []

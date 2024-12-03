@@ -13,7 +13,7 @@ from config import WEBAPP_URL
 
 
 async def is_message_back(update: Update):
-    if update.message.text == GetWord(update.effective_user.id).back:
+    if update.message.text == Strings(update.effective_user.id).back:
         return True
     else:
         return False
