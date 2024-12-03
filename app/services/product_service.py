@@ -8,6 +8,12 @@ def filter_products_by_category(category_id):
     return query
 
 
+@sync_to_async
+def filter_products_by_title(title):
+    query = Product.objects.filter(title__icontains=title)
+    return query
+
+
 async def update_categories_using_data(data: dict):
     new_categories = []
     updated_categories = []
