@@ -22,17 +22,17 @@ async def _inline_footer_buttons(context: CustomContext, buttons, back=True, mai
     return buttons
 
 async def select_lang_keyboard():
-    buttons = [GetWord.uz_ru]
+    buttons = [Strings.uz_ru]
     markup = ReplyKeyboardMarkup(buttons, resize_keyboard=True, one_time_keyboard=True)
     return markup
 
 async def settings_keyboard(context: CustomContext):
 
     buttons = [
-        [context.words.change_lang,]
-        [context.words.change_name,]
-        [context.words.change_phone_number,]
-        [context.words.main_menu,]
+        [context.words.change_lang],
+        [context.words.change_name],
+        [context.words.change_phone_number],
+        [context.words.main_menu],
     ]
 
     return buttons
