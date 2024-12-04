@@ -19,10 +19,10 @@ async def update_categories_using_data(data: dict):
     updated_categories = []
     for item in data:
         if not item['show_in_tgbot']:
-            existing_category = await Category.objects.filter(code=item['code']).afirst()
+            existing_category = await Category.objects.filter(uuid=item['uuid']).afirst()
 
             category = Category(
-                code=item['code'],
+                uuid=item['uuid'],
                 title=item['name']
             )
 
@@ -40,7 +40,7 @@ async def update_categories_using_data(data: dict):
 
 
 async def update_products_using_data(data: dict):
-    # Prepare for region and category code
+    # Prepare for region and category uuid
     region = "samarkand"
     # List to store new and updated Product objects
     new_products = []
@@ -49,15 +49,15 @@ async def update_products_using_data(data: dict):
     # Loop over results in the API response
     for item in data:
         try:
-            category = await Category.objects.filter(code=item['category_code']).afirst()
+            category = await Category.objects.aget(uuid=item['category_uuid'])
         except Exception as ex:
             continue
 
-        # Check if the product with the same code exists
-        existing_product = await Product.objects.filter(code=item['code']).afirst()
+        # Check if the product with the same uuid exists
+        existing_product = await Product.objects.filter(uuid=item['uuid']).afirst()
 
         product = Product(
-            code=item['code'],
+            uuid=item['uuid'],
             region=region,
             category=category,
             title=item['name'],

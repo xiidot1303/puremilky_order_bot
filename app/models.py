@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Category(models.Model):
-    code = models.CharField(null=True, max_length=16)
+    uuid = models.CharField(null=True, max_length=64, unique=True)
     title = models.CharField(null=True, max_length=255)
 
 
@@ -13,7 +13,7 @@ REGIONS = [
 
 
 class Product(models.Model):
-    code = models.CharField(null=True, max_length=16)
+    uuid = models.CharField(null=True, max_length=64, unique=True)
     region = models.CharField(null=True, choices=REGIONS, max_length=32)
     category = models.ForeignKey(Category, null=True, on_delete=models.CASCADE)
     title = models.CharField(null=True, max_length=255)
