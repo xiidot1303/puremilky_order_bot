@@ -8,6 +8,8 @@ URL = ONE_C_URL
 class ApiMethods:
     products = "products"
     categories = "categories"
+    clients = "clients"
+    price_list = "price_list"
 
 
 class OneCRequest:
