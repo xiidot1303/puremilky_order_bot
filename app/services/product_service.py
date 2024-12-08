@@ -1,10 +1,18 @@
-from app.models import Product, Category
+from app.models import Product, Category, PriceType
 from asgiref.sync import sync_to_async
+from django.db.models import OuterRef, Subquery
 
 
 @sync_to_async
-def filter_products_by_category(category_id):
-    query = Product.objects.filter(category__id=category_id)
+def filter_products_by_category_and_by_client(category_id, price_type_uuid):
+    query = Product.objects.filter(category__id=category_id).annotate(
+        price_for_client=Subquery(
+            PriceType.objects.filter(
+                product_uuid=OuterRef('uuid'),
+                uuid=price_type_uuid
+            ).values('price')[:1]
+        )
+    )
     return query
 
 

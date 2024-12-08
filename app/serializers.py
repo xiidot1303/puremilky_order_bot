@@ -5,6 +5,7 @@ from bot.models import Bot_user
 
 
 class ProductSerializer(ModelSerializer):
+    price_for_client = serializers.CharField()
     class Meta:
         model = Product
         fields = '__all__'

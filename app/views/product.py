@@ -1,6 +1,7 @@
 from app.views import *
 from adrf.views import APIView
 from app.services.product_service import *
+from app.services.client_service import *
 
 
 class CategoryListView(APIView):
@@ -17,9 +18,12 @@ class ProductListByCategoryView(APIView):
     async def post(self, request: AsyncRequest):
         # Get the title from the POST request data
         category_id = request.data.get('category', None)
+        client_id = request.data.get('client', None)
+
+        client: Client = await Client.objects.aget(id=client_id)
 
         # Filter products by category
-        products = await filter_products_by_category(category_id)
+        products = await filter_products_by_category_and_by_client(category_id, client.price_type_uuid)
 
         # Serialize the filtered products data
         serializer = ProductSerializer(products, many=True)
