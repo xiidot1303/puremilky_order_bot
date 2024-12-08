@@ -11,7 +11,7 @@ class CategoryAdmin(admin.ModelAdmin):
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('uuid', 'region', 'category', 'title',
-                    'measurement', 'weight', 'quantity_per_pack', 'price')
+                    'measurement', 'weight', 'quantity_per_pack', 'price', 'photo')
     search_fields = ('uuid', 'title', 'category__title')
     list_filter = ('region', 'category')
 
