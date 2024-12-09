@@ -34,9 +34,12 @@ class ProductListByTitleView(APIView):
     async def post(self, request: AsyncRequest):
         # Get the title from the POST request data
         title = request.data.get('title', None)
+        client_id = request.data.get('client', None)
+
+        client: Client = await Client.objects.aget(id=client_id)
 
         # Filter products by title
-        products = await filter_products_by_title(title)
+        products = await filter_products_by_title(title, client.price_type_uuid)
 
         # Serialize the filtered products data
         serializer = ProductSerializer(products, many=True)

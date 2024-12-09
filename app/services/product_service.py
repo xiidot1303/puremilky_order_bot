@@ -17,8 +17,15 @@ def filter_products_by_category_and_by_client(category_id, price_type_uuid):
 
 
 @sync_to_async
-def filter_products_by_title(title):
-    query = Product.objects.filter(title__icontains=title)
+def filter_products_by_title(title, price_type_uuid):
+    query = Product.objects.filter(title__icontains=title).annotate(
+        price_for_client=Subquery(
+            PriceType.objects.filter(
+                product_uuid=OuterRef('uuid'),
+                uuid=price_type_uuid
+            ).values('price')[:1]
+        )
+    )
     return query
 
 
