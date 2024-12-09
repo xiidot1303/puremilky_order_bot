@@ -1,7 +1,9 @@
 from django.db import models
 from django.core.validators import FileExtensionValidator
+from asgiref.sync import sync_to_async
 
 class Bot_user(models.Model):
+    client = models.ForeignKey('app.Client', null=True, on_delete=models.CASCADE)
     user_id = models.BigIntegerField(null=True)
     name = models.CharField(null=True, blank=True, max_length=256, default='', verbose_name='Имя')
     username = models.CharField(null=True, blank=True, max_length=256, verbose_name='username')
@@ -13,6 +15,11 @@ class Bot_user(models.Model):
     ]
     lang = models.IntegerField(null=True, blank=True, choices=LANG_CHOICES, default=0, verbose_name='Язык')
     date = models.DateTimeField(db_index=True, null=True, auto_now_add=True, blank=True, verbose_name='Дата регистрации')
+
+    @property
+    @sync_to_async
+    def get_client(self):
+        return  self.client
 
     def __str__(self) -> str:
         try:

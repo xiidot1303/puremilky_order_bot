@@ -2,6 +2,11 @@ from app.models import Client
 from asgiref.sync import sync_to_async
 
 
+async def get_client_by_uuid(uuid):
+    obj = await Client.objects.filter(uuid=uuid).afirst()
+    return obj
+
+
 async def update_clients_using_data(data: dict):
     new_clients = []
     updated_clients = []
@@ -47,10 +52,9 @@ async def update_clients_using_data(data: dict):
         await Client.objects.abulk_create(new_clients)
     else:
         await sync_to_async(Client.objects.bulk_update)(
-            updated_clients, 
+            updated_clients,
             fields=[
                 'name', 'address', 'inn', 'branch_uuid',
                 'price_type_uuid', 'days_of_the_week', 'phone',
                 'debt', 'latitude', 'longitude', 'date_last_visit', 'name_organization'
             ])
-            

@@ -3,14 +3,14 @@ import json
 import logging
 import traceback
 import html
+from bot.bot.login import _to_the_selecting_lang
 
 
 async def start(update: Update, context: CustomContext):
-    text = context.words.main_menu
-    await context.bot.send_message(update.message.chat_id, text)
-    await context.application.update_queue.put(NewsletterUpdate(
-        user_id=context._user_id, text="lalalalalalalal"
-    ))
+    if await is_registered(update.effective_user.id):
+        await main_menu(update, context)
+    else:
+        return await _to_the_selecting_lang(update, context)
 
 
 async def newsletter_update(update: NewsletterUpdate, context: CustomContext):

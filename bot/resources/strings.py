@@ -70,19 +70,19 @@ class Strings:
         """Ваше имя успешно изменено!""",
     ]
 
-    _ = [
-        "",
-        ""
+    type_your_client_id = [
+        "ID raqamingizni kiriting",
+        "Введите свой идентификационный код"
     ]
 
-    _ = [
-        "",
-        ""
+    client_id_is_incorrect = [
+        "ID no'to'g'ri",
+        "Неверный идентификатор"
     ]
 
-    _ = [
-        "",
-        ""
+    order = [
+        "Buyurtma qilish",
+        "Заказать"
     ]
 
     _ = [
