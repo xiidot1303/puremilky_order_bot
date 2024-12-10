@@ -45,3 +45,15 @@ class PriceType(models.Model):
     uuid = models.CharField(null=True, max_length=64)
     product_uuid = models.CharField(null=True, max_length=64)
     price = models.IntegerField(null=True)
+
+
+class OrderItem(models.Model):
+    order = models.ForeignKey("app.Order", null=True, on_delete=models.PROTECT)
+    product = models.ForeignKey(Product, null=True, on_delete=models.PROTECT)
+    count = models.IntegerField(null=True)
+
+
+class Order(models.Model):
+    client = models.ForeignKey(Client, null=True, on_delete=models.PROTECT)
+    datetime = models.DateTimeField(
+        db_index=True, null=True, auto_now_add=True, blank=True)

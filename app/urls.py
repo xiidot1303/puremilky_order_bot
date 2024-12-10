@@ -7,7 +7,7 @@ from django.contrib.auth.views import (
 )
 
 from app.views import (
-    main, product
+    main, product, order
 )
 
 urlpatterns = [
@@ -17,5 +17,7 @@ urlpatterns = [
     path('products-by-title', product.ProductListByTitleView.as_view()),
     path('categories', product.CategoryListView.as_view()),
 
+    # order
+    path('create-order', order.CreateOrder.as_view()),
 
 ]
