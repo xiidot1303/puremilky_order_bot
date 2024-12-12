@@ -10,10 +10,11 @@ class ApiMethods:
     categories = "categories"
     clients = "clients"
     price_list = "price_list"
+    act_sverki = "act_sverki_pdf"
 
 
 class OneCRequest:
-    def __init__(self, method: ApiMethods):
+    def __init__(self, method: ApiMethods, params={}):
         # make credentials for base Distribution
         url = URL + f'/Distribution/hs/tg_bot/{method}'
         username = ONE_C_DISTRIBUTION_LOGIN
@@ -32,6 +33,7 @@ class OneCRequest:
             "token": ONE_C_DISTRIBUTION_API_TOKEN,
             "version": "3.0.0"
         }
+        request_body.update(params)
         self.url = url
         self.headers = headers
         self.body = request_body
@@ -42,3 +44,13 @@ class OneCRequest:
             self.headers, type='post'
         )
         return response['results'] if 'results' in response else response
+
+
+async def get_act_sverki(client_uuid, start_period, end_period):
+    params = {
+        "client": client_uuid,
+        "start_period": start_period,
+        "end_period": end_period
+    }
+    request = OneCRequest(ApiMethods.act_sverki, params)
+    return await request.send()

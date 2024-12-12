@@ -1,8 +1,4 @@
-from adrf.views import APIView
-from rest_framework.response import Response
-from rest_framework import status
-from app.serializers import *
-from asgiref.sync import sync_to_async
+from app.views import *
 
 
 class CreateOrder(APIView):

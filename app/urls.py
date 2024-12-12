@@ -7,7 +7,7 @@ from django.contrib.auth.views import (
 )
 
 from app.views import (
-    main, product, order
+    main, product, order, report
 )
 
 urlpatterns = [
@@ -19,5 +19,9 @@ urlpatterns = [
 
     # order
     path('create-order', order.CreateOrder.as_view()),
+
+    # report
+
+    path('reconciliation-act', report.ReconciliationActView.as_view()),
 
 ]
