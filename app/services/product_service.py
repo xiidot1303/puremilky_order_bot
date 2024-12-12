@@ -79,7 +79,8 @@ async def update_products_using_data(data: dict):
             measurement=item['measurement'],
             weight=item['weight'],
             quantity_per_pack=item['quantity_per_pack'],
-            price=item['price']
+            price=item['price'],
+            remainder=item['remainder']
         )
 
         if existing_product:
@@ -91,6 +92,7 @@ async def update_products_using_data(data: dict):
             existing_product.weight = product.weight
             existing_product.quantity_per_pack = product.quantity_per_pack
             existing_product.price = product.price
+            existing_product.remainder = product.remainder
             updated_products.append(existing_product)
         else:
             # Add the new product to the new_products list
@@ -101,5 +103,6 @@ async def update_products_using_data(data: dict):
         await Product.objects.abulk_create(new_products)
     if updated_products:
         await sync_to_async(Product.objects.bulk_update)(updated_products, fields=[
-            'region', 'category', 'title', 'measurement', 'weight', 'quantity_per_pack', 'price'
+            'region', 'category', 'title', 'measurement', 'weight',
+            'quantity_per_pack', 'price', 'remainder'
         ])

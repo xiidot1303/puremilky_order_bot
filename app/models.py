@@ -21,6 +21,7 @@ class Product(models.Model):
     weight = models.IntegerField(null=True)
     quantity_per_pack = models.IntegerField(null=True)
     price = models.BigIntegerField(null=True)
+    remainder = models.BigIntegerField(null=True)
     photo = models.FileField(null=True, upload_to='product/photos/')
 
 
