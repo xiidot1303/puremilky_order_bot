@@ -48,7 +48,7 @@ class PriceType(models.Model):
 
 
 class OrderItem(models.Model):
-    order = models.ForeignKey("app.Order", null=True, on_delete=models.PROTECT)
+    order = models.ForeignKey("app.Order", null=True, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, null=True, on_delete=models.PROTECT)
     count = models.IntegerField(null=True)
 
