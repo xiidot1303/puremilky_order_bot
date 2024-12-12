@@ -17,7 +17,7 @@ class ReconciliationActView(APIView):
             pdf_base64 = response['data']
             pdf_data = base64.b64decode(pdf_base64)
             response = HttpResponse(pdf_data, content_type='application/pdf')
-            response['Content-Disposition'] = 'inline; filename="generated.png"'
+            response['Content-Disposition'] = 'inline; filename="generated.pdf"'
             return response
 
         except Exception as ex:
