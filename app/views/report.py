@@ -2,6 +2,9 @@ from app.views import *
 from app.services.client_service import *
 from app.services.one_c_service import get_act_sverki
 import base64
+from io import BytesIO
+from bot import NewsletterUpdate, InputFile
+from bot.control.updater import application
 
 
 class ReconciliationActView(APIView):
@@ -15,14 +18,22 @@ class ReconciliationActView(APIView):
         try:
             response = await get_act_sverki(client.uuid, start_period, end_period)
             pdf_base64 = response['data']
-            # pdf_data = base64.b64decode(pdf_base64)
-            # response = HttpResponse(pdf_data, content_type='application/pdf')
-            # response['Content-Disposition'] = 'inline; filename="generated.pdf"'
-            return HttpResponse(pdf_base64)
+            pdf_data = base64.b64decode(pdf_base64)
+            pdf_file = BytesIO(pdf_data)
+            pdf_file.name = "file.pdf"
+            bot_user: Bot_user = await get_bot_user_of_client(client)
+            await application.update_queue.put(
+                NewsletterUpdate(bot_user.user_id,
+                                 f"Акс сверка:\n{start_period}-{end_period}",
+                                 document=InputFile(pdf_file))
+            )
+            response = HttpResponse(pdf_data, content_type='application/pdf')
+            response['Content-Disposition'] = 'inline; filename="generated.pdf"'
+            return response
 
         except Exception as ex:
             import logging
             # logging.error(
-            # 
+            #
             # "ded", ex)
             return Response(status=500)
