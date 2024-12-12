@@ -1,9 +1,15 @@
 from app.models import Client
+from bot.models import Bot_user
 from asgiref.sync import sync_to_async
 
 
 async def get_client_by_uuid(uuid):
     obj = await Client.objects.filter(uuid=uuid).afirst()
+    return obj
+
+
+async def get_bot_user_of_client(client: Client) -> Bot_user:
+    obj = await Bot_user.objects.filter(client=client).afirst()
     return obj
 
 

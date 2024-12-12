@@ -10,7 +10,8 @@ from telegram.ext import (
     PicklePersistence
 )
 from telegram import (
-    ReplyKeyboardMarkup
+    ReplyKeyboardMarkup,
+    InputFile
 )
 from bot.resources.strings import Strings
 
