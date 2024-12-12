@@ -33,7 +33,7 @@ async def update_categories_using_data(data: dict):
     new_categories = []
     updated_categories = []
     for item in data:
-        if not item['show_in_tgbot']:
+        if item['show_in_tgbot']:
             existing_category = await Category.objects.filter(uuid=item['uuid']).afirst()
 
             category = Category(
