@@ -5,7 +5,7 @@ from django.db.models import OuterRef, Subquery
 
 @sync_to_async
 def filter_products_by_category_and_by_client(category_id, price_type_uuid):
-    query = Product.objects.filter(category__id=category_id).annotate(
+    query = Product.objects.filter(remainder__gt = 0, category__id=category_id).annotate(
         price_for_client=Subquery(
             PriceType.objects.filter(
                 product_uuid=OuterRef('uuid'),
@@ -18,7 +18,7 @@ def filter_products_by_category_and_by_client(category_id, price_type_uuid):
 
 @sync_to_async
 def filter_products_by_title(title, price_type_uuid):
-    query = Product.objects.filter(title__icontains=title).annotate(
+    query = Product.objects.filter(remainder__gt = 0, title__icontains=title).annotate(
         price_for_client=Subquery(
             PriceType.objects.filter(
                 product_uuid=OuterRef('uuid'),
