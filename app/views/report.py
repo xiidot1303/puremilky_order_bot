@@ -24,7 +24,7 @@ class ReconciliationActView(APIView):
             bot_user: Bot_user = await get_bot_user_of_client(client)
             await application.update_queue.put(
                 NewsletterUpdate(bot_user.user_id,
-                                 f"Акс сверка:\n{start_period}-{end_period}",
+                                 f"Акт сверка:\n{start_period}-{end_period}",
                                  document=InputFile(pdf_file))
             )
             response = HttpResponse(pdf_data, content_type='application/pdf')
