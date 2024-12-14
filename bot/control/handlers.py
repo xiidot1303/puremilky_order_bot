@@ -36,7 +36,7 @@ login_handler = ConversationHandler(
         ]
     },
     fallbacks=[
-        CommandHandler('start', login.start)
+        CommandHandler('start', main.start)
     ],
     persistent=True,
     name='login'
@@ -44,5 +44,6 @@ login_handler = ConversationHandler(
 
 handlers = [
     login_handler,
+    CommandHandler('logout', main.logout),
     TypeHandler(type=NewsletterUpdate, callback=main.newsletter_update)
 ]

@@ -90,9 +90,9 @@ class Strings:
         "📑 Акт сверка"
     ]
 
-    _ = [
-        "",
-        ""
+    successfully_logout = [
+        "Success",
+        "Success"
     ]
 
     _ = [

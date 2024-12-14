@@ -33,7 +33,7 @@ async def get_lang(update: Update, context: CustomContext):
         obj.lang = lang
         await obj.asave()
     if 'client_id' in context.user_data:
-        if client := await get_client_by_uuid(context.user_datap['client_id']):
+        if client := await get_client_by_uuid(context.user_data['client_id']):
             obj.client = client
             await obj.asave()
             await main_menu(update, context)
@@ -57,7 +57,3 @@ async def get_client_id(update: Update, context: CustomContext):
         text = context.words.client_id_is_incorrect
         await update_message_reply_text(update, text)
         return
-
-
-async def start(update: Update, context: CustomContext):
-    return await _to_the_selecting_lang(update, context)
