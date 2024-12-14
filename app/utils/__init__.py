@@ -47,7 +47,27 @@ async def send_request(url, data=None, headers=None, type='get') -> dict:
                 else:
                     response_text = await response.text()
                     return json.loads(response_text)
-                
+
+
+async def get_next_nearest_day_by_weekdays(weekdays):
+    RUSSIAN_WEEKDAYS = ["Понедельник", "Вторник", "Среда",
+                        "Четверг", "Пятница", "Суббота", "Воскресенье"]
+    # Get the current day index (Monday=0, ..., Sunday=6)
+    today_index = datetime.today().weekday()
+
+    # Convert Russian weekday names to indices
+    weekdays_indices = sorted(
+        set(RUSSIAN_WEEKDAYS.index(day) for day in weekdays))
+
+    # Find the next closest day
+    for day in weekdays_indices:
+        if day >= today_index:
+            days_difference = (day - today_index) % 7
+            return datetime.today() + timedelta(days=days_difference)
+
+    # If no day in the list is greater than or equal to today, wrap around to the first day
+    days_difference = (weekdays_indices[0] - today_index) % 7
+    return datetime.today() + timedelta(days=days_difference)
 
 
 class DictToClass:
