@@ -32,6 +32,12 @@ async def get_lang(update: Update, context: CustomContext):
     if not created:
         obj.lang = lang
         await obj.asave()
+    if 'client_id' in context.user_data:
+        if client := await get_client_by_uuid(context.user_datap['client_id']):
+            obj.client = client
+            await obj.asave()
+            await main_menu(update, context)
+            return ConversationHandler.END
 
     return await _to_the_getting_client_id(update, context)
 

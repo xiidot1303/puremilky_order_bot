@@ -7,6 +7,10 @@ from bot.bot.login import _to_the_selecting_lang
 
 
 async def start(update: Update, context: CustomContext):
+    # get start message from start
+    _, start_msg = await get_start_msg(update.effective_message.text)
+    if start_msg:
+        context.user_data['client_id'] = start_msg
     if await is_registered(update.effective_user.id):
         await main_menu(update, context)
     else:
