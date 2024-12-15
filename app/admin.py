@@ -43,7 +43,7 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'client', 'datetime']
+    list_display = ['id', 'client', 'datetime', 'published']
     list_filter = ['datetime', 'client']
     search_fields = ['client__name']  # Assuming Client has a `name` field
     ordering = ['-datetime']
