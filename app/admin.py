@@ -37,7 +37,7 @@ class PriceTypeAdmin(admin.ModelAdmin):
 class OrderItemInline(admin.TabularInline):
     model = OrderItem
     extra = 1  # Number of extra empty forms for related OrderItem
-    fields = ['product', 'count']
+    fields = ['product', 'count', 'price']
     readonly_fields = []
 
 

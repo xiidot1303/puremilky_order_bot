@@ -2,6 +2,7 @@ from app.services import *
 from config import *
 import base64
 
+
 URL = ONE_C_URL
 
 
@@ -11,6 +12,7 @@ class ApiMethods:
     clients = "clients"
     price_list = "price_list"
     act_sverki = "act_sverki_pdf"
+    create_order = "post_orders"
 
 
 class OneCRequest:
@@ -56,3 +58,33 @@ async def get_act_sverki(client_uuid, start_period, end_period):
     return await request.send()
 
 
+async def create_order_api(
+    date_shipping: datetime, client_uuid: str, order_details: list
+):
+    """
+    attr order_details: \n
+    [
+        {
+            "product_uuid": product_uuid,
+            "price": price,
+            "quantity": count
+        }
+    ]
+
+    """
+    now: datetime = await datetime_now()
+    params = {
+        "results": [
+            {
+                "is_van": False,
+                "date_shipping": date_shipping.strftime("%Y-%m-%d"),
+                "date_creation": now.strftime("%Y-%m-%d"),
+                "client_uuid": client_uuid,
+                "date": date_shipping.strftime("%Y-%m-%d"),
+                "comment": ".",
+                "details": order_details
+            }
+        ]
+    }
+    request = OneCRequest(ApiMethods.create_order, params)
+    return await request.send()

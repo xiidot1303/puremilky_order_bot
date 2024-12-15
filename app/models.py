@@ -1,4 +1,5 @@
 from django.db import models
+from asgiref.sync import sync_to_async
 
 
 class Category(models.Model):
@@ -52,9 +53,16 @@ class OrderItem(models.Model):
     order = models.ForeignKey("app.Order", null=True, on_delete=models.CASCADE)
     product = models.ForeignKey(Product, null=True, on_delete=models.PROTECT)
     count = models.IntegerField(null=True)
+    price = models.BigIntegerField(null=True, default=0)
 
 
 class Order(models.Model):
     client = models.ForeignKey(Client, null=True, on_delete=models.PROTECT)
     datetime = models.DateTimeField(
         db_index=True, null=True, auto_now_add=True, blank=True)
+    published = models.BooleanField(default=False, null=True)
+
+    @property
+    @sync_to_async
+    def get_client(self):
+        return self.client

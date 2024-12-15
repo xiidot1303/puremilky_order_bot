@@ -1,0 +1,20 @@
+from app.models import Order, OrderItem
+from django.db.models import QuerySet, F
+from asgiref.sync import sync_to_async
+
+
+filter_unpublished_orders_dict = {
+    'published': False
+}
+
+
+@sync_to_async
+def get_order_items_details_of_order(order: Order):
+    query = OrderItem.objects.filter(order=order).annotate(
+        quantity=F('count')  # Rename 'count' to 'quantity'
+    ).values(
+        'product__uuid',
+        'price',
+        'quantity'
+    )
+    return list(query)
