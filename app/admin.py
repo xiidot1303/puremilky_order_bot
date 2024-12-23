@@ -4,8 +4,9 @@ from app.models import *
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('uuid', 'title')
+    list_display = ('uuid', 'title', 'region')
     search_fields = ('uuid', 'title')
+    list_filter = ('region', )
 
 
 @admin.register(Product)
@@ -19,19 +20,17 @@ class ProductAdmin(admin.ModelAdmin):
 @admin.register(Client)
 class ClientAdmin(admin.ModelAdmin):
     list_display = (
-        'name', 'address', 'inn', 'branch_uuid', 'price_type_uuid',
-        'phone', 'debt', 'latitude', 'longitude', 'date_last_visit', 'name_organization'
+        'name', 'phone', 'name_organization', 'region'
     )
-    search_fields = ('name', 'inn', 'address', 'phone')
-    list_filter = ('branch_uuid', 'price_type_uuid', 'days_of_the_week')
-    list_editable = ('debt',)
+    search_fields = ('name', 'address', 'phone', 'region')
+    list_filter = ( 'days_of_the_week', 'region')
 
 
 @admin.register(PriceType)
 class PriceTypeAdmin(admin.ModelAdmin):
-    list_display = ('uuid', 'product_uuid', 'price')
+    list_display = ('uuid', 'product_uuid', 'price', 'region')
     search_fields = ('uuid', 'product_uuid')
-    list_filter = ('price',)
+    list_filter = ('price', 'region')
 
 
 class OrderItemInline(admin.TabularInline):

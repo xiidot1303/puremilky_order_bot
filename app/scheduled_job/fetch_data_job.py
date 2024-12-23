@@ -13,6 +13,14 @@ async def update_products():
     # save data
     await update_products_using_data(products_list)
 
+    # TASHKENT
+    # get products data from one c
+    request = OneCRequest(ApiMethods.products, region='tashkent')
+    products_list: dict = await request.send()
+    print(products_list)
+    # save data
+    await update_products_using_data(products_list, region='tashkent')
+
 
 async def update_categories():
     # get categories data from one c
@@ -21,6 +29,14 @@ async def update_categories():
 
     # save data
     await update_categories_using_data(categories_list)
+
+    # TASHKENT
+    # get categories data from one c
+    request = OneCRequest(ApiMethods.categories, region='tashkent')
+    categories_list: dict = await request.send()
+
+    # save data
+    await update_categories_using_data(categories_list, region='tashkent')
 
 
 async def update_clients():
@@ -31,6 +47,14 @@ async def update_clients():
     # save data
     await update_clients_using_data(clients_list)
 
+    # TASHKENT
+    # get clients data from one c
+    request = OneCRequest(ApiMethods.clients, region='tashkent')
+    clients_list: dict = await request.send()
+
+    # save data
+    await update_clients_using_data(clients_list, region='tashkent')
+
 
 async def update_price_types():
     # get price types data from one c
@@ -39,3 +63,11 @@ async def update_price_types():
 
     # save data
     await update_price_types_using_data(clients_list)
+
+    # TASHKENT
+    # get price types data from one c
+    request = OneCRequest(ApiMethods.price_list, region='tashkent')
+    clients_list: dict = await request.send()
+
+    # save data
+    await update_price_types_using_data(clients_list, region='tashkent')

@@ -2,19 +2,23 @@ from django.db import models
 from asgiref.sync import sync_to_async
 
 
-class Category(models.Model):
-    uuid = models.CharField(null=True, max_length=64, unique=True)
-    title = models.CharField(null=True, max_length=255)
-
-
 REGIONS = [
     ('samarkand', "Samarkand"),
     ('tashkent', "Tashkent")
 ]
 
 
+class Category(models.Model):
+    uuid = models.CharField(null=True, max_length=64)
+    title = models.CharField(null=True, max_length=255)
+    region = models.CharField(null=True, choices=REGIONS, max_length=32)
+
+    class Meta:
+        unique_together = ('uuid', 'region')
+
+
 class Product(models.Model):
-    uuid = models.CharField(null=True, max_length=64, unique=True)
+    uuid = models.CharField(null=True, max_length=64)
     region = models.CharField(null=True, choices=REGIONS, max_length=32)
     category = models.ForeignKey(Category, null=True, on_delete=models.CASCADE)
     title = models.CharField(null=True, max_length=255)
@@ -25,9 +29,13 @@ class Product(models.Model):
     remainder = models.BigIntegerField(null=True)
     photo = models.FileField(null=True, upload_to='product/photos/')
 
+    class Meta:
+        unique_together = ('uuid', 'region')
+
 
 class Client(models.Model):
     uuid = models.CharField(max_length=36, blank=True, null=True, unique=True)
+    region = models.CharField(null=True, choices=REGIONS, max_length=32)
     name = models.CharField(max_length=255, blank=True, null=True)
     address = models.CharField(max_length=255, blank=True, null=True)
     inn = models.CharField(max_length=64, blank=True, null=True)
@@ -42,11 +50,18 @@ class Client(models.Model):
     date_last_visit = models.DateTimeField(blank=True, null=True)
     name_organization = models.CharField(max_length=255, blank=True, null=True)
 
+    class Meta:
+        unique_together = ('uuid', 'region')
+
 
 class PriceType(models.Model):
     uuid = models.CharField(null=True, max_length=64)
+    region = models.CharField(null=True, choices=REGIONS, max_length=32)
     product_uuid = models.CharField(null=True, max_length=64)
     price = models.IntegerField(null=True)
+
+    class Meta:
+        unique_together = ('uuid', 'region', 'product_uuid')
 
 
 class OrderItem(models.Model):

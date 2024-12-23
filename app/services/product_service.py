@@ -4,8 +4,10 @@ from django.db.models import OuterRef, Subquery
 
 
 @sync_to_async
-def filter_products_by_category_and_by_client(category_id, price_type_uuid):
-    query = Product.objects.filter(remainder__gt = 0, category__id=category_id).annotate(
+def filter_products_by_category_and_by_client(category_id, price_type_uuid, region):
+    query = Product.objects.filter(
+        remainder__gt=0, category__id=category_id, region=region
+    ).annotate(
         price_for_client=Subquery(
             PriceType.objects.filter(
                 product_uuid=OuterRef('uuid'),
@@ -17,8 +19,8 @@ def filter_products_by_category_and_by_client(category_id, price_type_uuid):
 
 
 @sync_to_async
-def filter_products_by_title(title, price_type_uuid):
-    query = Product.objects.filter(remainder__gt = 0, title__icontains=title).annotate(
+def filter_products_by_title(title, price_type_uuid, region):
+    query = Product.objects.filter(remainder__gt=0, title__icontains=title, region=region).annotate(
         price_for_client=Subquery(
             PriceType.objects.filter(
                 product_uuid=OuterRef('uuid'),
@@ -29,20 +31,22 @@ def filter_products_by_title(title, price_type_uuid):
     return query
 
 
-async def update_categories_using_data(data: dict):
+async def update_categories_using_data(data: dict, region='samarkand'):
     new_categories = []
     updated_categories = []
     for item in data:
         if item['show_in_tgbot']:
-            existing_category = await Category.objects.filter(uuid=item['uuid']).afirst()
+            existing_category = await Category.objects.filter(uuid=item['uuid'], region=region).afirst()
 
             category = Category(
                 uuid=item['uuid'],
-                title=item['name']
+                title=item['name'],
+                region=region
             )
 
             if existing_category:
                 existing_category.title = category.title
+                existing_category.region = category.region
                 updated_categories.append(existing_category)
             else:
                 new_categories.append(category)
@@ -51,12 +55,10 @@ async def update_categories_using_data(data: dict):
     if new_categories:
         await Category.objects.abulk_create(new_categories)
     else:
-        await sync_to_async(Product.objects.bulk_update)(updated_categories, fields=['title'])
+        await sync_to_async(Product.objects.bulk_update)(updated_categories, fields=['title', 'region'])
 
 
-async def update_products_using_data(data: dict):
-    # Prepare for region and category uuid
-    region = "samarkand"
+async def update_products_using_data(data: dict, region='samarkand'):
     # List to store new and updated Product objects
     new_products = []
     updated_products = []
@@ -64,12 +66,12 @@ async def update_products_using_data(data: dict):
     # Loop over results in the API response
     for item in data:
         try:
-            category = await Category.objects.aget(uuid=item['category_uuid'])
+            category = await Category.objects.aget(uuid=item['category_uuid'], region=region)
         except Exception as ex:
             continue
 
         # Check if the product with the same uuid exists
-        existing_product = await Product.objects.filter(uuid=item['uuid']).afirst()
+        existing_product = await Product.objects.filter(uuid=item['uuid'], region=region).afirst()
 
         product = Product(
             uuid=item['uuid'],
@@ -85,8 +87,8 @@ async def update_products_using_data(data: dict):
 
         if existing_product:
             # Update the fields if the product already exists
-            # existing_product.region = product.region
             # existing_product.category = product.category
+            existing_product.region = product.region
             existing_product.title = product.title
             existing_product.measurement = product.measurement
             existing_product.weight = product.weight
@@ -104,5 +106,5 @@ async def update_products_using_data(data: dict):
     if updated_products:
         await sync_to_async(Product.objects.bulk_update)(updated_products, fields=[
             'region', 'category', 'title', 'measurement', 'weight',
-            'quantity_per_pack', 'price', 'remainder'
+            'quantity_per_pack', 'price', 'remainder', 'region'
         ])

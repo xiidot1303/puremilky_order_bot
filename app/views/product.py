@@ -6,8 +6,12 @@ from app.services.client_service import *
 
 class CategoryListView(APIView):
     async def post(self, request: AsyncRequest):
-        # get all categories
-        categories = await sync_to_async(Category.objects.all)()
+        # get client
+        client_id = request.data.get('client', None)
+        client: Client = await Client.objects.aget(id=client_id)
+
+        # get categories by region
+        categories = await sync_to_async(Category.objects.filter)(region=client.region)
 
         # Serialize the filtered products data
         serializer = CategorySerializer(categories, many=True)
@@ -23,7 +27,8 @@ class ProductListByCategoryView(APIView):
         client: Client = await Client.objects.aget(id=client_id)
 
         # Filter products by category
-        products = await filter_products_by_category_and_by_client(category_id, client.price_type_uuid)
+        products = await filter_products_by_category_and_by_client(
+            category_id, client.price_type_uuid, client.region)
 
         # Serialize the filtered products data
         serializer = ProductSerializer(products, many=True)
@@ -39,7 +44,7 @@ class ProductListByTitleView(APIView):
         client: Client = await Client.objects.aget(id=client_id)
 
         # Filter products by title
-        products = await filter_products_by_title(title, client.price_type_uuid)
+        products = await filter_products_by_title(title, client.price_type_uuid, client.region)
 
         # Serialize the filtered products data
         serializer = ProductSerializer(products, many=True)

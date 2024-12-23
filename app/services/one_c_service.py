@@ -3,9 +3,6 @@ from config import *
 import base64
 
 
-URL = ONE_C_URL
-
-
 class ApiMethods:
     products = "products"
     categories = "categories"
@@ -16,12 +13,19 @@ class ApiMethods:
 
 
 class OneCRequest:
-    def __init__(self, method: ApiMethods, params={}):
+    def __init__(self, method: ApiMethods, params={}, region='samarkand'):
         # make credentials for base Distribution
-        url = URL + f'/Distribution/hs/tg_bot/{method}'
-        username = ONE_C_DISTRIBUTION_LOGIN
-        password = ONE_C_DISTRIBUTION_PASSWORD
-        credentials = f"{username}:{password}"
+        if region == 'samarkand':
+            url = ONE_C_URL + f'/Distribution/hs/tg_bot/{method}'
+            username = ONE_C_DISTRIBUTION_LOGIN
+            password = ONE_C_DISTRIBUTION_PASSWORD
+            credentials = f"{username}:{password}"
+        elif region == 'tashkent':
+            url = ONE_C_URL_TASHKENT + f'/Dist/hs/tg_bot/{method}'
+            username = ONE_C_DISTRIBUTION_LOGIN_TASHKENT
+            password = ONE_C_DISTRIBUTION_PASSWORD_TASHKENT
+            credentials = f"{username}:{password}"
+
         encoded_credentials = base64.b64encode(
             credentials.encode('utf-8')).decode('utf-8')
         # create auth by username and password
@@ -48,18 +52,18 @@ class OneCRequest:
         return response['results'] if 'results' in response else response
 
 
-async def get_act_sverki(client_uuid, start_period, end_period):
+async def get_act_sverki(client_uuid, start_period, end_period, region='samarkand'):
     params = {
         "client": client_uuid,
         "start_period": start_period,
         "end_period": end_period
     }
-    request = OneCRequest(ApiMethods.act_sverki, params)
+    request = OneCRequest(ApiMethods.act_sverki, params, region=region)
     return await request.send()
 
 
 async def create_order_api(
-    date_shipping: datetime, client_uuid: str, order_details: list
+    date_shipping: datetime, client_uuid: str, order_details: list, region='samarkand'
 ):
     """
     attr order_details: \n
@@ -86,5 +90,5 @@ async def create_order_api(
             }
         ]
     }
-    request = OneCRequest(ApiMethods.create_order, params)
+    request = OneCRequest(ApiMethods.create_order, params, region=region)
     return await request.send()

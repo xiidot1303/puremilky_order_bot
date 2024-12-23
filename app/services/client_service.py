@@ -13,7 +13,7 @@ async def get_bot_user_of_client(client: Client) -> Bot_user:
     return obj
 
 
-async def update_clients_using_data(data: dict):
+async def update_clients_using_data(data: dict, region='samarkand'):
     new_clients = []
     updated_clients = []
     for item in data:
@@ -33,7 +33,7 @@ async def update_clients_using_data(data: dict):
                 latitude=item['latitude'],
                 longitude=item['longitude'],
                 date_last_visit=item['date_last_visit'],
-                name_organization=item['name_organization']
+                region=region
             )
 
             if existing_client:
@@ -48,7 +48,7 @@ async def update_clients_using_data(data: dict):
                 existing_client.latitude = client.latitude
                 existing_client.longitude = client.longitude
                 existing_client.date_last_visit = client.date_last_visit
-                existing_client.name_organization = client.name_organization
+                existing_client.region = client.region
                 updated_clients.append(existing_client)
             else:
                 new_clients.append(client)
@@ -62,5 +62,5 @@ async def update_clients_using_data(data: dict):
             fields=[
                 'name', 'address', 'inn', 'branch_uuid',
                 'price_type_uuid', 'days_of_the_week', 'phone',
-                'debt', 'latitude', 'longitude', 'date_last_visit', 'name_organization'
+                'debt', 'latitude', 'longitude', 'date_last_visit', 'region'
             ])
