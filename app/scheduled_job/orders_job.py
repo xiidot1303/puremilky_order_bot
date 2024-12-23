@@ -11,7 +11,7 @@ async def publish_orders_to_one_c():
             order_details = await get_order_items_details_of_order(order)
             shipping_date: datetime = await get_next_nearest_day_by_weekdays(client.days_of_the_week)
             response = await create_order_api(
-                shipping_date, client.uuid, order_details
+                shipping_date, client.uuid, order_details, client.region
             )
             order.published = True
             await order.asave()

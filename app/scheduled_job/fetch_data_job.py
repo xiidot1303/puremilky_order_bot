@@ -17,7 +17,6 @@ async def update_products():
     # get products data from one c
     request = OneCRequest(ApiMethods.products, region='tashkent')
     products_list: dict = await request.send()
-    print(products_list)
     # save data
     await update_products_using_data(products_list, region='tashkent')
 
