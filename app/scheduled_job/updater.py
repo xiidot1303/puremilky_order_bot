@@ -9,7 +9,11 @@ class jobs:
     scheduler.add_job(async_to_sync(
         fetch_data_job.update_products), 'interval', minutes=5)
     scheduler.add_job(async_to_sync(
-        fetch_data_job.update_products), 'interval', minutes=120)
+        fetch_data_job.update_categories), 'interval', minutes=120)
+    scheduler.add_job(async_to_sync(
+        fetch_data_job.update_clients), 'interval', minutes=139)
+    scheduler.add_job(async_to_sync(
+        fetch_data_job.update_price_types), 'interval', minutes=61)
 
     scheduler.add_job(async_to_sync(
         orders_job.publish_orders_to_one_c), 'interval', minutes=5)
