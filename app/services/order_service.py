@@ -11,9 +11,10 @@ filter_unpublished_orders_dict = {
 @sync_to_async
 def get_order_items_details_of_order(order: Order):
     query = OrderItem.objects.filter(order=order).annotate(
-        quantity=F('count')  # Rename 'count' to 'quantity'
+        quantity=F('count'),
+        product_uuid=F('product__uuid'),  # Rename 'count' to 'quantity'
     ).values(
-        'product__uuid',
+        'product_uuid',
         'price',
         'quantity'
     )
