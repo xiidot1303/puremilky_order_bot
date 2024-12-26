@@ -1,4 +1,5 @@
 from app.views import *
+from app.utils import *
 
 
 class CreateOrder(APIView):
@@ -11,3 +12,15 @@ class CreateOrder(APIView):
         else:
             return Response(order_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+class GetShippingDate(APIView):
+    async def post(self, request: AsyncRequest):
+        # get client
+        client_id = request.data.get('client', None)
+        client: Client = await Client.objects.aget(id=client_id)
+
+        shipping_date: datetime = await get_next_nearest_day_by_weekdays(client.days_of_the_week)
+        response = {
+            'date': shipping_date.strftime('%d.%m.%Y')
+        }
+        return Response(response, status=status.HTTP_200_OK)
