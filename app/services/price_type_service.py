@@ -27,8 +27,10 @@ async def update_price_types_using_data(data: list, region='samarkand'):
 
     # Create new price types if any
     if new_price_types:
-        await PriceType.objects.abulk_create(new_price_types)
+        for r in range(0, len(new_price_types), 500):
+            await PriceType.objects.abulk_create(new_price_types[r:r+500])
 
     # Update existing price types if any
     if updated_price_types:
-        await sync_to_async(PriceType.objects.bulk_update)(updated_price_types, fields=['price'])
+        for r in range(0, len(updated_price_types), 500):
+            await sync_to_async(PriceType.objects.bulk_update)(updated_price_types[r:r+500], fields=['price'])

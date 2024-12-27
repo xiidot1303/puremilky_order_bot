@@ -55,12 +55,14 @@ async def update_clients_using_data(data: dict, region='samarkand'):
 
     # create objects
     if new_clients:
-        await Client.objects.abulk_create(new_clients)
+        for r in range(0, len(new_clients), 500):
+            await Client.objects.abulk_create(new_clients[r:r+500])
     else:
-        await sync_to_async(Client.objects.bulk_update)(
-            updated_clients,
-            fields=[
-                'name', 'address', 'inn', 'branch_uuid',
-                'price_type_uuid', 'days_of_the_week', 'phone',
-                'debt', 'latitude', 'longitude', 'date_last_visit', 'region'
-            ])
+        for r in range(0, len(updated_clients), 500):
+            await sync_to_async(Client.objects.bulk_update)(
+                updated_clients[r:r+500],
+                fields=[
+                    'name', 'address', 'inn', 'branch_uuid',
+                    'price_type_uuid', 'days_of_the_week', 'phone',
+                    'debt', 'latitude', 'longitude', 'date_last_visit', 'region'
+                ])

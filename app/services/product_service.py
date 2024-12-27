@@ -102,9 +102,13 @@ async def update_products_using_data(data: dict, region='samarkand'):
 
     # create objects
     if new_products:
-        await Product.objects.abulk_create(new_products)
+        for r in range(0, len(new_products), 500):
+            await Product.objects.abulk_create(
+                new_products[r:r+500]
+            )
     if updated_products:
-        await sync_to_async(Product.objects.bulk_update)(updated_products, fields=[
-            'region', 'category', 'title', 'measurement', 'weight',
-            'quantity_per_pack', 'price', 'remainder', 'region'
-        ])
+        for r in range(0, len(updated_products), 500):
+            await sync_to_async(Product.objects.bulk_update)(updated_products[updated_products[r:r+500]], fields=[
+                'region', 'category', 'title', 'measurement', 'weight',
+                'quantity_per_pack', 'price', 'remainder', 'region'
+            ])
