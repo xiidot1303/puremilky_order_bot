@@ -108,7 +108,7 @@ async def update_products_using_data(data: dict, region='samarkand'):
             )
     if updated_products:
         for r in range(0, len(updated_products), 500):
-            await sync_to_async(Product.objects.bulk_update)(updated_products[updated_products[r:r+500]], fields=[
+            await sync_to_async(Product.objects.bulk_update)(updated_products[r:r+500], fields=[
                 'region', 'category', 'title', 'measurement', 'weight',
                 'quantity_per_pack', 'price', 'remainder', 'region'
             ])
