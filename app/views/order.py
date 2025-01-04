@@ -1,10 +1,11 @@
 from app.views import *
 from app.utils import *
+from app.services.order_service import *
 
 
 class CreateOrder(APIView):
     async def post(self, request, *args, **kwargs):
-        order_serializer = OrderSerializer(data=request.data)
+        order_serializer = OrderSerializerByData(data=request.data)
         if await sync_to_async(order_serializer.is_valid)():
             # create Order by serializer
             await order_serializer.acreate(order_serializer.validated_data)
@@ -24,3 +25,11 @@ class GetShippingDate(APIView):
             'date': shipping_date.strftime('%d.%m.%Y')
         }
         return Response(response, status=status.HTTP_200_OK)
+
+
+class OrdersListByClient(APIView):
+    async def post(self, request: AsyncRequest):
+        client_id = request.data.get('client', None)
+        orders = await filter_orders_of_client(client_id)
+        serializer = OrderSerializer(orders, many=True)
+        return Response(await serializer.adata, status=status.HTTP_200_OK)

@@ -2,6 +2,7 @@ from rest_framework import serializers
 from adrf.serializers import Serializer, ModelSerializer
 from app.models import *
 from bot.models import Bot_user
+from asgiref.sync import sync_to_async
 
 
 class ProductSerializer(ModelSerializer):
@@ -18,22 +19,23 @@ class CategorySerializer(ModelSerializer):
         fields = '__all__'
 
 
-class OrderItemSerializer(ModelSerializer):
+class OrderItemSerializerByData(ModelSerializer):
     product = serializers.SlugRelatedField(
         queryset=Product.objects.all(),
         slug_field='id'
     )
+
     class Meta:
         model = OrderItem
         fields = ['product', 'count', 'price']
 
 
-class OrderSerializer(ModelSerializer):
+class OrderSerializerByData(ModelSerializer):
     client = serializers.SlugRelatedField(
         queryset=Client.objects.all(),
         slug_field='id'
     )
-    order_items = OrderItemSerializer(many=True)
+    order_items = OrderItemSerializerByData(many=True)
 
     class Meta:
         model = Order
@@ -50,3 +52,18 @@ class OrderSerializer(ModelSerializer):
             item, created = await OrderItem.objects.aget_or_create(order=order, **item_data)
 
         return order
+
+
+class OrderItemSerializer(ModelSerializer):
+    class Meta:
+        model = OrderItem
+        fields = ['id', 'product', 'count', 'price']
+
+
+class OrderSerializer(ModelSerializer):
+    order_items = OrderItemSerializer(
+        many=True, source='orderitem_set', read_only=True)
+
+    class Meta:
+        model = Order
+        fields = ['id', 'client', 'datetime', 'published', 'order_items']

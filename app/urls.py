@@ -20,6 +20,7 @@ urlpatterns = [
     # order
     path('create-order', order.CreateOrder.as_view()),
     path('get-shipping-date', order.GetShippingDate.as_view()),
+    path('orders-list-by-client', order.OrdersListByClient.as_view()),
 
     # report
 
