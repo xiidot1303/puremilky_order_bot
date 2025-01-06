@@ -55,6 +55,13 @@ class OrderSerializerByData(ModelSerializer):
 
 
 class OrderItemSerializer(ModelSerializer):
+    class ProductSerializer2(ModelSerializer):
+        class Meta:
+            model = Product
+            fields = ['title']
+
+    product = ProductSerializer2()
+
     class Meta:
         model = OrderItem
         fields = ['id', 'product', 'count', 'price']

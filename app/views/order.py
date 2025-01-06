@@ -28,8 +28,8 @@ class GetShippingDate(APIView):
 
 
 class OrdersListByClient(APIView):
-    async def post(self, request: AsyncRequest):
+    def post(self, request: AsyncRequest):
         client_id = request.data.get('client', None)
-        orders = await filter_orders_of_client(client_id)
+        orders = filter_orders_of_client(client_id)
         serializer = OrderSerializer(orders, many=True)
-        return Response(await serializer.adata, status=status.HTTP_200_OK)
+        return Response(serializer.data, status=status.HTTP_200_OK)

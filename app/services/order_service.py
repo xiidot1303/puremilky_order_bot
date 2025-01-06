@@ -21,6 +21,6 @@ def get_order_items_details_of_order(order: Order):
     return list(query)
 
 
-async def filter_orders_of_client(client_id):
-    query = (await sync_to_async(Order.objects.filter)(client__id=client_id)).prefetch_related('orderitem_set')
+def filter_orders_of_client(client_id):
+    query = Order.objects.filter(client__id=client_id).prefetch_related('orderitem_set')
     return query
