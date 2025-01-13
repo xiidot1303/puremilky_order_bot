@@ -33,3 +33,16 @@ class OrdersListByClient(APIView):
         orders = filter_orders_of_client(client_id)
         serializer = OrderSerializer(orders, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+class GetMinOrderAmount(APIView):
+    async def post(self, request: AsyncRequest):
+        # get client
+        client_id = request.data.get('client', None)
+        client: Client = await Client.objects.aget(id=client_id)
+
+        amount = await get_min_order_amount_by_region(client.region)
+        response = {
+            'amount': amount
+        }
+        return Response(response, status=status.HTTP_200_OK)

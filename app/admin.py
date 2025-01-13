@@ -47,3 +47,9 @@ class OrderAdmin(admin.ModelAdmin):
     search_fields = ['client__name']  # Assuming Client has a `name` field
     ordering = ['-datetime']
     inlines = [OrderItemInline]  # Include OrderItems as inline
+
+
+@admin.register(MinOrderAmount)
+class MinOrderAmountAdmin(admin.ModelAdmin):
+    list_display = ['region', 'amount']
+    

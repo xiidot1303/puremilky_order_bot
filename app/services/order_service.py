@@ -1,4 +1,4 @@
-from app.models import Order, OrderItem
+from app.models import Order, OrderItem, MinOrderAmount
 from django.db.models import QuerySet, F
 from asgiref.sync import sync_to_async
 
@@ -22,5 +22,11 @@ def get_order_items_details_of_order(order: Order):
 
 
 def filter_orders_of_client(client_id):
-    query = Order.objects.filter(client__id=client_id).prefetch_related('orderitem_set')
+    query = Order.objects.filter(
+        client__id=client_id).prefetch_related('orderitem_set')
     return query
+
+
+async def get_min_order_amount_by_region(region: str):
+    obj = await MinOrderAmount.objects.filter(region=region).afirst()
+    return obj.amount if obj else 0

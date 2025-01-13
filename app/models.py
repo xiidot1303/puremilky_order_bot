@@ -81,3 +81,8 @@ class Order(models.Model):
     @sync_to_async
     def get_client(self):
         return self.client
+
+
+class MinOrderAmount(models.Model):
+    region = models.CharField(choices=REGIONS, max_length=32)
+    amount = models.BigIntegerField()
