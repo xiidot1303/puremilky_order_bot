@@ -95,14 +95,16 @@ class Strings:
         "Success"
     ]
 
-    _ = [
-        "",
-        ""
+    after_registration = [
+        "☑️ Siz muvaffaqiyatli ro'yxatdan o'tdingiz. Hozirda shaxsingizni tekshirish jarayoni amalga oshmoqda...",
+        "☑️ Вы успешно зарегистрировались. В настоящее время идет процесс проверки вашей личности..."
     ]
 
-    _ = [
-        "",
-        ""
+    successfully_activated = [
+        "✅ Sizning shaxsingiz muvaffaqiyatli tasdiqlandi va siz endilikda botimiz orqali buyurtma bera olasiz." \
+            "\n\nBuyurtmani boshlash uchun /start ustiga bosing.",
+        "✅ Ваша личность успешно подтверждена, и теперь вы можете оформить заказ через нашего бота.\n\n" \
+            "Нажмите /start, чтобы начать оформление заказа."
     ]
 
     _ = [

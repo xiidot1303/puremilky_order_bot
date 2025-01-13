@@ -6,13 +6,16 @@ from django.urls import reverse
 class Bot_userAdmin(admin.ModelAdmin):
     def get_list_display(self, request):
         if request.user.is_superuser:
-            list_display = ['name', 'username', 'phone', 'date', 'edit_button']
+            list_display = ['name', 'username', 'phone', 'date', 'is_active', 'edit_button']
         else:
-            list_display = ['name', 'username', 'phone', 'date']
+            list_display = ['name', 'username', 'phone', 'date', 'is_active']
         return list_display
+    list_display = ['name', 'username', 'phone', 'date', 'is_active', 'edit_button']
+    
     search_fields = ['name', 'username', 'phone']
     list_filter = ['date']
     list_display_links = None
+    list_editable = ['is_active']
 
     def edit_button(self, obj):
         change_url = reverse('admin:bot_bot_user_change', args=[obj.id])
