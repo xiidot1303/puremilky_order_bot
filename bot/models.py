@@ -15,7 +15,6 @@ class Bot_user(models.Model):
     ]
     lang = models.IntegerField(null=True, blank=True, choices=LANG_CHOICES, default=0, verbose_name='Язык')
     date = models.DateTimeField(db_index=True, null=True, auto_now_add=True, blank=True, verbose_name='Дата регистрации')
-    is_active = models.BooleanField(default=False, verbose_name="Активен?")
 
     @property
     @sync_to_async

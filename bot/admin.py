@@ -9,7 +9,6 @@ class Bot_userAdmin(admin.ModelAdmin):
     search_fields = ['name', 'username', 'phone']
     list_filter = ['date']
     list_display_links = None
-    list_editable = ['is_active']
 
     def edit_button(self, obj):
         change_url = reverse('admin:bot_bot_user_change', args=[obj.id])
