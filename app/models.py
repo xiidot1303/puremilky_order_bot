@@ -53,6 +53,8 @@ class Client(models.Model):
     class Meta:
         unique_together = ('uuid', 'region')
 
+    def __str__(self) -> str:
+        return self.name
 
 class PriceType(models.Model):
     uuid = models.CharField(null=True, max_length=64)

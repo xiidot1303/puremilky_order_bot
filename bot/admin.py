@@ -4,13 +4,7 @@ from django.utils.html import format_html
 from django.urls import reverse
 
 class Bot_userAdmin(admin.ModelAdmin):
-    def get_list_display(self, request):
-        if request.user.is_superuser:
-            list_display = ['name', 'username', 'phone', 'date', 'is_active', 'edit_button']
-        else:
-            list_display = ['name', 'username', 'phone', 'date', 'is_active']
-        return list_display
-    list_display = ['name', 'username', 'phone', 'date', 'is_active', 'edit_button']
+    list_display = ['client', 'name', 'username', 'phone', 'date', 'is_active', 'edit_button']
     
     search_fields = ['name', 'username', 'phone']
     list_filter = ['date']
