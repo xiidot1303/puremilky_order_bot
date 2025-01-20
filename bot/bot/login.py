@@ -36,8 +36,7 @@ async def get_lang(update: Update, context: CustomContext):
         if client := await get_client_by_uuid(context.user_data['client_id']):
             obj.client = client
             await obj.asave()
-            text = context.words.after_registration
-            await update_message_reply_text(update, text)
+            await main_menu(update, context)
             return ConversationHandler.END
 
     return await _to_the_getting_client_id(update, context)
@@ -52,8 +51,7 @@ async def get_client_id(update: Update, context: CustomContext):
         bot_user.client = client
         await bot_user.asave()
         # return to main menu
-        text = context.words.after_registration
-        await update_message_reply_text(update, text)
+        await main_menu(update, context)
         return ConversationHandler.END
     else:
         text = context.words.client_id_is_incorrect
