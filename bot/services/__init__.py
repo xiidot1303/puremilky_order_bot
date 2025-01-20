@@ -4,7 +4,7 @@ from telegram import Update
 
 @sync_to_async
 def is_registered(id):
-    if Bot_user.objects.filter(user_id=id, is_active=True):
+    if Bot_user.objects.filter(user_id=id).exclude(client=None):
         return True
     else:
         return False
