@@ -74,3 +74,60 @@ class OrderSerializer(ModelSerializer):
     class Meta:
         model = Order
         fields = ['id', 'client', 'datetime', 'published', 'order_items']
+
+
+class FavoritesItemSerializerByData(ModelSerializer):
+    product = serializers.SlugRelatedField(
+        queryset=Product.objects.all(),
+        slug_field='id'
+    )
+
+    class Meta:
+        model = FavoritesItem
+        fields = ['product', 'count']
+
+
+class FavoritesSerializerByData(ModelSerializer):
+    client = serializers.SlugRelatedField(
+        queryset=Client.objects.all(),
+        slug_field='id'
+    )
+    favorites_items = FavoritesItemSerializerByData(many=True)
+
+    class Meta:
+        model = Favorites
+        fields = ['client', 'favorites_items']
+
+    async def acreate(self, validated_data):
+        items_data = validated_data.pop('favorites_items')
+
+        # Create the favorites
+        favorites = await Favorites.objects.acreate(**validated_data)
+
+        # Add items to the favorites
+        for item_data in items_data:
+            item, created = await FavoritesItem.objects.aget_or_create(favorites=favorites, **item_data)
+
+        return favorites
+
+
+class FavoritesItemSerializer(ModelSerializer):
+    class ProductSerializer2(ModelSerializer):
+        class Meta:
+            model = Product
+            fields = ['id']
+
+    product = ProductSerializer2()
+
+    class Meta:
+        model = FavoritesItem
+        fields = ['id', 'product', 'count']
+
+
+class FavoritesSerializer(ModelSerializer):
+    favorites_items = FavoritesItemSerializer(
+        many=True, source='favoritesitem_set', read_only=True)
+
+    class Meta:
+        model = Favorites
+        fields = ['id', 'client', 'favorites_items']

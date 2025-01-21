@@ -1,13 +1,13 @@
 from django.urls import path, re_path
 from django.contrib.auth.views import (
-    LoginView, 
-    LogoutView, 
-    PasswordChangeDoneView, 
+    LoginView,
+    LogoutView,
+    PasswordChangeDoneView,
     PasswordChangeView
 )
 
 from app.views import (
-    main, product, order, report
+    main, product, order, report, favorites
 )
 
 urlpatterns = [
@@ -24,7 +24,11 @@ urlpatterns = [
     path('get-min-order-amount', order.GetMinOrderAmount.as_view()),
 
     # report
-
     path('reconciliation-act', report.ReconciliationActView.as_view()),
+
+    # favorites
+    path('create-favorites', favorites.CreateFavorites.as_view()),
+    path('favorites-list-by-client', favorites.FavoritesListByClient.as_view()),
+
 
 ]

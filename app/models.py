@@ -56,6 +56,7 @@ class Client(models.Model):
     def __str__(self) -> str:
         return self.name
 
+
 class PriceType(models.Model):
     uuid = models.CharField(null=True, max_length=64)
     region = models.CharField(null=True, choices=REGIONS, max_length=32)
@@ -88,3 +89,14 @@ class Order(models.Model):
 class MinOrderAmount(models.Model):
     region = models.CharField(choices=REGIONS, max_length=32)
     amount = models.BigIntegerField()
+
+
+class FavoritesItem(models.Model):
+    favorites = models.ForeignKey(
+        "app.Favorites", null=True, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, null=True, on_delete=models.PROTECT)
+    count = models.IntegerField(null=True)
+
+
+class Favorites(models.Model):
+    client = models.ForeignKey(Client, null=True, on_delete=models.CASCADE)

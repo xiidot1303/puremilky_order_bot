@@ -23,7 +23,7 @@ class ClientAdmin(admin.ModelAdmin):
         'name', 'phone', 'name_organization', 'region'
     )
     search_fields = ('name', 'address', 'phone', 'region')
-    list_filter = ( 'days_of_the_week', 'region')
+    list_filter = ('days_of_the_week', 'region')
 
 
 @admin.register(PriceType)
@@ -49,7 +49,21 @@ class OrderAdmin(admin.ModelAdmin):
     inlines = [OrderItemInline]  # Include OrderItems as inline
 
 
+class FavoritesItemInline(admin.TabularInline):
+    model = FavoritesItem
+    extra = 1  
+    fields = ['product', 'count']
+    readonly_fields = []
+
+
+@admin.register(Favorites)
+class FavoritesAdmin(admin.ModelAdmin):
+    list_display = ['id', 'client']
+    list_filter = ['client']
+    search_fields = ['client__name']
+    inlines = [FavoritesItemInline]
+
+
 @admin.register(MinOrderAmount)
 class MinOrderAmountAdmin(admin.ModelAdmin):
     list_display = ['region', 'amount']
-    
