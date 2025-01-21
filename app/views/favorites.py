@@ -18,5 +18,5 @@ class FavoritesListByClient(APIView):
     def post(self, request: AsyncRequest):
         client_id = request.data.get('client', None)
         favorites = filter_favorites_of_client(client_id)
-        serializer = FavoritesSerializer(favorites, many=True)
+        serializer = FavoritesSerializer(favorites, many=True, context={'client_id': client_id})
         return Response(serializer.data, status=status.HTTP_200_OK)
