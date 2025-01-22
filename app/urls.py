@@ -28,6 +28,7 @@ urlpatterns = [
 
     # favorites
     path('create-favorites', favorites.CreateFavorites.as_view()),
+    path('delete-favorites', favorites.DeleteFavorites.as_view()),
     path('favorites-list-by-client', favorites.FavoritesListByClient.as_view()),
 
 
