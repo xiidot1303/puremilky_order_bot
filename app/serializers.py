@@ -139,3 +139,14 @@ class FavoritesSerializer(ModelSerializer):
     class Meta:
         model = Favorites
         fields = ['id', 'client', 'favorites_items']
+
+
+class FeedbackSerializerByData(ModelSerializer):
+    order = serializers.SlugRelatedField(
+        queryset=Order.objects.all(),
+        slug_field='id'
+    )
+
+    class Meta:
+        model = Feedback
+        fields = ['order', 'comment']

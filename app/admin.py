@@ -51,7 +51,7 @@ class OrderAdmin(admin.ModelAdmin):
 
 class FavoritesItemInline(admin.TabularInline):
     model = FavoritesItem
-    extra = 1  
+    extra = 1
     fields = ['product', 'count']
     readonly_fields = []
 
@@ -67,3 +67,8 @@ class FavoritesAdmin(admin.ModelAdmin):
 @admin.register(MinOrderAmount)
 class MinOrderAmountAdmin(admin.ModelAdmin):
     list_display = ['region', 'amount']
+
+
+@admin.register(Feedback)
+class FeedbackAdmin(admin.ModelAdmin):
+    list_display = ['order', 'comment']

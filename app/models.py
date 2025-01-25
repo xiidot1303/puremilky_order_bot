@@ -100,3 +100,8 @@ class FavoritesItem(models.Model):
 
 class Favorites(models.Model):
     client = models.ForeignKey(Client, null=True, on_delete=models.CASCADE)
+
+
+class Feedback(models.Model):
+    order = models.ForeignKey("app.Order", null=True, blank=True, on_delete=models.CASCADE)
+    comment = models.TextField(null=True, max_length=1024)

@@ -7,7 +7,7 @@ from django.contrib.auth.views import (
 )
 
 from app.views import (
-    main, product, order, report, favorites
+    main, product, order, report, favorites, feedback
 )
 
 urlpatterns = [
@@ -30,6 +30,9 @@ urlpatterns = [
     path('create-favorites', favorites.CreateFavorites.as_view()),
     path('delete-favorites', favorites.DeleteFavorites.as_view()),
     path('favorites-list-by-client', favorites.FavoritesListByClient.as_view()),
+
+    # feedback
+    path('feedback-create', feedback.FeedbackCreateView.as_view()),
 
 
 ]
