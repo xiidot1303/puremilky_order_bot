@@ -105,3 +105,5 @@ class Favorites(models.Model):
 class Feedback(models.Model):
     order = models.ForeignKey("app.Order", null=True, blank=True, on_delete=models.CASCADE)
     comment = models.TextField(null=True, max_length=1024)
+    datetime = models.DateTimeField(
+        db_index=True, null=True, auto_now_add=True, blank=True)
