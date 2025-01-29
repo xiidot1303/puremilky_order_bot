@@ -72,3 +72,9 @@ class MinOrderAmountAdmin(admin.ModelAdmin):
 @admin.register(Feedback)
 class FeedbackAdmin(admin.ModelAdmin):
     list_display = ['order', 'comment']
+
+
+@admin.register(RecommendedOrder)
+class RecommendedOrderAdmin(admin.ModelAdmin):
+    list_display = ['client', 'product', 'quantity', 'region']
+    list_filter = ['client', 'region']

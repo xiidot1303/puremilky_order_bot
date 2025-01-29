@@ -103,7 +103,17 @@ class Favorites(models.Model):
 
 
 class Feedback(models.Model):
-    order = models.ForeignKey("app.Order", null=True, blank=True, on_delete=models.CASCADE)
+    order = models.ForeignKey("app.Order", null=True,
+                              blank=True, on_delete=models.CASCADE)
     comment = models.TextField(null=True, max_length=1024)
     datetime = models.DateTimeField(
         db_index=True, null=True, auto_now_add=True, blank=True)
+
+
+class RecommendedOrder(models.Model):
+    client = models.ForeignKey(
+        'app.Client', null=True, blank=False, on_delete=models.CASCADE)
+    product = models.ForeignKey(
+        'app.Product', null=True, blank=False, on_delete=models.CASCADE)
+    quantity = models.IntegerField(null=True)
+    region = models.CharField(null=True, choices=REGIONS, max_length=32)

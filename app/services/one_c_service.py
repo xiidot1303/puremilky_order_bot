@@ -10,6 +10,7 @@ class ApiMethods:
     price_list = "price_list"
     act_sverki = "act_sverki_pdf"
     create_order = "post_orders"
+    recommended_orders = "recommended_order"
 
 
 class OneCRequest:

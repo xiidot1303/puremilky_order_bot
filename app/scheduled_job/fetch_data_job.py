@@ -2,6 +2,7 @@ from app.utils import send_request
 from app.services.product_service import update_products_using_data, update_categories_using_data
 from app.services.client_service import update_clients_using_data
 from app.services.price_type_service import update_price_types_using_data
+from app.services.recommended_order_service import update_recommended_orders_using_data
 from app.services.one_c_service import *
 
 
@@ -70,3 +71,20 @@ async def update_price_types():
 
     # save data
     await update_price_types_using_data(clients_list, region='tashkent')
+
+
+async def update_recommended_order():
+    # get recommended orders from one c
+    request = OneCRequest(ApiMethods.recommended_orders)
+    recommended_orders: dict = await request.send()
+
+    # save date
+    await update_recommended_orders_using_data(recommended_orders)
+
+    # TASHKENT
+    # get recommended orders from one c
+    request = OneCRequest(ApiMethods.recommended_orders, region='tashkent')
+    recommended_orders: dict = await request.send()
+
+    # save date
+    await update_recommended_orders_using_data(recommended_orders, region='tashkent')
