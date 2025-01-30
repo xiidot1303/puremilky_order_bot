@@ -7,7 +7,8 @@ from django.contrib.auth.views import (
 )
 
 from app.views import (
-    main, product, order, report, favorites, feedback
+    main, product, order, report, favorites, feedback,
+    recommended_order
 )
 
 urlpatterns = [
@@ -34,5 +35,7 @@ urlpatterns = [
     # feedback
     path('feedback-create', feedback.FeedbackCreateView.as_view()),
 
+    # recommended order
+    path('recommended-orders-by-client', recommended_order.RecommendedOrdersByClient.as_view()),
 
 ]

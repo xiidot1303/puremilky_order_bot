@@ -25,3 +25,7 @@ async def update_recommended_orders_using_data(data: list, region='samarkand'):
     if new_recommended_orders:
         for r in range(0, len(new_recommended_orders), 500):
             await RecommendedOrder.objects.abulk_create(new_recommended_orders[r:r+500])
+
+
+def filter_recommended_orders_by_client(client_id):
+    return RecommendedOrder.objects.filter(client__id=client_id)

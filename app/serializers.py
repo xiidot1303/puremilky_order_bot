@@ -150,3 +150,24 @@ class FeedbackSerializerByData(ModelSerializer):
     class Meta:
         model = Feedback
         fields = ['order', 'comment']
+
+
+class RecommendedOrderSerializer(ModelSerializer):
+    class ProductSerializer2(ModelSerializer):
+        price = serializers.SerializerMethodField()
+
+        class Meta:
+            model = Product
+            fields = ['id', 'price', 'title']
+
+        def get_price(self, obj):
+            client_id = self.context.get('client_id')
+            client: Client = Client.objects.filter(id=client_id).first()
+            price_type = PriceType.objects.filter(product_uuid=obj.uuid, uuid=client.price_type_uuid).first()
+            return price_type.price
+
+    product = ProductSerializer2()
+
+    class Meta:
+        model = RecommendedOrder
+        fields = ['product', 'quantity']
