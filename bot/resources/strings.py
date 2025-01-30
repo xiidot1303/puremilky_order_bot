@@ -28,10 +28,10 @@ class Strings:
     select_lang = [""" Tilni tanlang """, """Выберите язык бота """]
     type_name = ["""Ismingizni kiriting """, """Введите ваше имя """]
     send_number = [
-        """Telefon raqamingizni yuboring """,
-        """Оставьте свой номер телефона """,
+        """Telefon raqamingizni yuboring:""",
+        """Оставьте свой номер телефона:""",
     ]
-    leave_number = ["Telefon raqamni yuborish", "Оставить номер телефона"]
+    leave_number = ["📞 Telefon raqamni yuborish", "📞 Оставить номер телефона"]
     back = ["""🔙 Ortga""", """🔙 Назад"""]
     next_step = ["""Davom etish ➡️""", """Далее ➡️"""]
     seller = ["""Sotuvchi 🛍""", """Продавцам 🛍"""]

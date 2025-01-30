@@ -27,7 +27,11 @@ login_handler = ConversationHandler(
             filters.Text(Strings.uz_ru),
             login.get_lang
         )],
-
+        GET_CONTACT: [
+            MessageHandler(filters.CONTACT, login.get_contact),
+            MessageHandler(filters.TEXT & exceptions_for_filter_text,
+                           login._to_the_getting_contact)
+        ],
         GET_CLIENT_ID: [
             MessageHandler(
                 filters.TEXT & exceptions_for_filter_text,

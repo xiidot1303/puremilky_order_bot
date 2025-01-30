@@ -25,10 +25,10 @@ async def main_menu(update: Update, context: CustomContext):
     await bot.send_message(
         update.effective_user.id,
         context.words.main_menu,
+        reply_markup=ReplyKeyboardRemove(True)
     )
-    bot_user: Bot_user = await  get_object_by_update(update)
+    bot_user: Bot_user = await get_object_by_update(update)
     client_id = (await bot_user.get_client).id
-    print(f"{WEBAPP_URL}?client={client_id}")
     webapp = WebAppInfo(url=f"{WEBAPP_URL}?client={client_id}")
     menu_button = MenuButtonWebApp(
         text=context.words.order,
