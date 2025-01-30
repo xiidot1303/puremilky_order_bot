@@ -7,7 +7,7 @@ class Bot_userAdmin(admin.ModelAdmin):
     list_display = ['client', 'name', 'username', 'phone', 'date', 'edit_button']
     
     search_fields = ['name', 'username', 'phone']
-    list_filter = ['date']
+    list_filter = ['date', 'client']
     list_display_links = None
 
     def edit_button(self, obj):
