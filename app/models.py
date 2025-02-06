@@ -75,6 +75,8 @@ class OrderItem(models.Model):
 
 
 class Order(models.Model):
+    bot_user = models.ForeignKey(
+        'bot.Bot_user', null=True, blank=True, on_delete=models.PROTECT)
     client = models.ForeignKey(Client, null=True, on_delete=models.PROTECT)
     datetime = models.DateTimeField(
         db_index=True, null=True, auto_now_add=True, blank=True)
@@ -84,6 +86,11 @@ class Order(models.Model):
     @sync_to_async
     def get_client(self):
         return self.client
+
+    @property
+    @sync_to_async
+    def get_bot_user(self):
+        return self.bot_user
 
 
 class MinOrderAmount(models.Model):

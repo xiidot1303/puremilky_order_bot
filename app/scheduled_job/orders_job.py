@@ -8,10 +8,11 @@ async def publish_orders_to_one_c():
         try:
             order: Order
             client = await order.get_client
+            bot_user = await order.get_bot_user
             order_details = await get_order_items_details_of_order(order)
             shipping_date: datetime = await get_next_nearest_day_by_weekdays(client.days_of_the_week)
             response = await create_order_api(
-                shipping_date, client.uuid, order_details, client.region
+                shipping_date, client.uuid, order_details, bot_user.phone if bot_user else "", client.region
             )
             order.published = True
             await order.asave()

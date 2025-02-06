@@ -42,8 +42,8 @@ class OrderItemInline(admin.TabularInline):
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ['id', 'client', 'datetime', 'published']
-    list_filter = ['datetime', 'client']
+    list_display = ['id', 'bot_user', 'client', 'datetime', 'published']
+    list_filter = ['datetime', 'bot_user', 'client']
     search_fields = ['client__name']  # Assuming Client has a `name` field
     ordering = ['-datetime']
     inlines = [OrderItemInline]  # Include OrderItems as inline

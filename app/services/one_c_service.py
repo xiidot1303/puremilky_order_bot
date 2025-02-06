@@ -64,7 +64,7 @@ async def get_act_sverki(client_uuid, start_period, end_period, region='samarkan
 
 
 async def create_order_api(
-    date_shipping: datetime, client_uuid: str, order_details: list, region='samarkand'
+    date_shipping: datetime, client_uuid: str, order_details: list, phone_number: str, region='samarkand'
 ):
     """
     attr order_details: \n
@@ -87,6 +87,7 @@ async def create_order_api(
                 "client_uuid": client_uuid,
                 "date": date_shipping.strftime("%Y-%m-%d"),
                 "comment": ".",
+                "phone_number": phone_number,
                 "details": order_details
             }
         ]

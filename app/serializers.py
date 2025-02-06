@@ -35,11 +35,15 @@ class OrderSerializerByData(ModelSerializer):
         queryset=Client.objects.all(),
         slug_field='id'
     )
+    bot_user = serializers.SlugRelatedField(
+        queryset=Bot_user.objects.all(),
+        slug_field='user_id'
+    )
     order_items = OrderItemSerializerByData(many=True)
 
     class Meta:
         model = Order
-        fields = ['client', 'order_items']
+        fields = ['client', 'bot_user', 'order_items']
 
     async def acreate(self, validated_data):
         items_data = validated_data.pop('order_items')
