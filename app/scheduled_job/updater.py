@@ -19,3 +19,6 @@ class jobs:
 
     scheduler.add_job(async_to_sync(
         orders_job.publish_orders_to_one_c), 'interval', minutes=5)
+
+    scheduler.add_job(async_to_sync(
+        orders_job.send_reminder_about_order), 'cron', hour=8, minute=0, second=0)

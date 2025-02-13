@@ -107,9 +107,9 @@ class Strings:
             "Нажмите /start, чтобы начать оформление заказа."
     ]
 
-    _ = [
-        "",
-        ""
+    reminder_about_order = [
+        "Assalomu alaykum, sizning bugun buyurtma kuningiz.",
+        "Здравствуйте, сегодня день вашего заказа."
     ]
 
     _ = [
