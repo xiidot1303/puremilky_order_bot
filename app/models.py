@@ -124,3 +124,19 @@ class RecommendedOrder(models.Model):
         'app.Product', null=True, blank=False, on_delete=models.CASCADE)
     quantity = models.IntegerField(null=True)
     region = models.CharField(null=True, choices=REGIONS, max_length=32)
+
+
+class Bonus(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    client = models.ForeignKey(Client, on_delete=models.CASCADE)
+    price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
+    available_free = models.BooleanField(default=True)
+    condition_no_less = models.PositiveIntegerField(default=0)
+    percentage_amount = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    condition_no_less2 = models.PositiveIntegerField(default=0)
+    percentage_amount2 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    condition_no_less3 = models.PositiveIntegerField(default=0)
+    percentage_amount3 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    condition_no_less4 = models.PositiveIntegerField(default=0)
+    percentage_amount4 = models.DecimalField(max_digits=5, decimal_places=2, default=0)
+    type_bonus = models.CharField(max_length=50)

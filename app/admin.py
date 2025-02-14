@@ -78,3 +78,8 @@ class FeedbackAdmin(admin.ModelAdmin):
 class RecommendedOrderAdmin(admin.ModelAdmin):
     list_display = ['client', 'product', 'quantity', 'region']
     list_filter = ['client', 'region']
+
+
+@admin.register(Bonus)
+class BonusAdmin(admin.ModelAdmin):
+    list_display = ['product', 'client', 'price', 'type_bonus']

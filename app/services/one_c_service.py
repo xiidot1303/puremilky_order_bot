@@ -11,6 +11,7 @@ class ApiMethods:
     act_sverki = "act_sverki_pdf"
     create_order = "post_orders"
     recommended_orders = "recommended_order"
+    product_bonus = "product_bonus"
 
 
 class OneCRequest:
