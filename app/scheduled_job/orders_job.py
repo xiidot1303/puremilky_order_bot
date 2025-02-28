@@ -27,7 +27,7 @@ async def publish_orders_to_one_c():
 async def send_reminder_about_order():
     RUSSIAN_WEEKDAYS = ["Понедельник", "Вторник", "Среда",
                         "Четверг", "Пятница", "Суббота", "Воскресенье"]
-    tomorrow: datetime = datetime_now() + timedelta(days=1)
+    tomorrow: datetime = await datetime_now() + timedelta(days=1)
     weekday = RUSSIAN_WEEKDAYS[tomorrow.weekday()]
     async for client in Client.objects.filter(days_of_the_week__contains=weekday):
         # get bot user by client
