@@ -108,8 +108,8 @@ class Strings:
     ]
 
     reminder_about_order = [
-        "Assalomu alaykum, sizning bugun buyurtma kuningiz.",
-        "Здравствуйте, сегодня день вашего заказа."
+        "Assalomu alaykum, Ertaga sizning do'koningizga mahsulot yetqazib beriladi. Balki, siz oldindan biror mahsulot buyurtma qilmoqchimisiz? Buyurtmangizni qabul qilishga tayyormiz!",
+        "Здравствуйте! Завтра в вашем магазине ожидается доставка. Возможно, вы хотите что-то заказать заранее? Будем рады вашему заказу!"
     ]
 
     _ = [
