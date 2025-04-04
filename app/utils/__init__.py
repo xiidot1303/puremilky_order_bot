@@ -61,7 +61,7 @@ async def get_next_nearest_day_by_weekdays(weekdays):
 
     # Find the next closest day
     for day in weekdays_indices:
-        if day >= today_index:
+        if day > today_index:
             days_difference = (day - today_index) % 7
             return datetime.today() + timedelta(days=days_difference)
 
