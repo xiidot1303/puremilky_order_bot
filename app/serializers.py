@@ -3,6 +3,8 @@ from adrf.serializers import Serializer, ModelSerializer
 from app.models import *
 from bot.models import Bot_user
 from asgiref.sync import sync_to_async
+from datetime import timedelta
+from django.utils.timezone import now
 
 
 class ProductSerializer(ModelSerializer):
@@ -46,6 +48,19 @@ class OrderSerializerByData(ModelSerializer):
         fields = ['client', 'bot_user', 'order_items']
 
     async def acreate(self, validated_data):
+        bot_user = validated_data.get('bot_user')
+
+        # Check if an order exists for this bot_user in the last 5 minutes
+        recent_order_exists = await Order.objects.filter(
+            bot_user=bot_user,
+            datetime__gte=now() - timedelta(minutes=5)
+        ).aexists()
+
+        if recent_order_exists:
+            raise serializers.ValidationError(
+                "An order has already been created with this bot_user in the last 5 minutes."
+            )
+
         items_data = validated_data.pop('order_items')
 
         # Create the order
