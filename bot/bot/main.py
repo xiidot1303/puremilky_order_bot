@@ -27,6 +27,21 @@ async def logout(update: Update, context: CustomContext):
     except:
         None
 
+
+async def feedback(update: Update, context: CustomContext):
+    await update_message_reply_text(
+        update,
+        text=context.words.feedback_text,
+        reply_markup=ReplyKeyboardMarkup(
+            [
+                [context.words.back]
+            ],
+            resize_keyboard=True
+        )
+    )
+    return GET_FEEDBACK
+
+
 async def newsletter_update(update: NewsletterUpdate, context: CustomContext):
     bot = context.bot
     if not (update.photo or update.video or update.document):

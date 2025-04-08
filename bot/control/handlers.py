@@ -12,7 +12,7 @@ from telegram.ext import (
 from bot.resources.conversationList import *
 
 from bot.bot import (
-    main, login
+    main, login, feedback
 )
 
 exceptions_for_filter_text = (~filters.COMMAND) & (
@@ -46,8 +46,34 @@ login_handler = ConversationHandler(
     name='login'
 )
 
+feedback_handler = ConversationHandler(
+    entry_points=[
+        MessageHandler(filters.Text(Strings.write_feedback), main.feedback)
+    ],
+    states={
+        GET_FEEDBACK: [
+            MessageHandler(filters.TEXT & exceptions_for_filter_text & ~filters.Text(Strings.back),
+                           feedback.get_feedback),
+        ]
+    },
+    fallbacks=[
+        CommandHandler('start', feedback.start),
+        MessageHandler(
+            filters.Text(Strings.back),
+            feedback.start
+        ),
+        MessageHandler(
+            filters.Text(Strings.main_menu),
+            feedback.start
+        )
+    ],
+    persistent=True,
+    name='feedback'
+)
+
 handlers = [
     login_handler,
+    feedback_handler,
     CommandHandler('logout', main.logout),
     TypeHandler(type=NewsletterUpdate, callback=main.newsletter_update)
 ]

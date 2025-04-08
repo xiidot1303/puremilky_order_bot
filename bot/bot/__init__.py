@@ -21,11 +21,16 @@ async def is_message_back(update: Update):
 
 async def main_menu(update: Update, context: CustomContext):
     bot = context.bot
-
+    markup = ReplyKeyboardMarkup(
+        [
+            [context.words.write_feedback]
+        ],
+        resize_keyboard=True,
+    )
     await bot.send_message(
         update.effective_user.id,
         context.words.main_menu,
-        reply_markup=ReplyKeyboardRemove(True)
+        reply_markup=markup
     )
     bot_user: Bot_user = await get_object_by_update(update)
     client_id = (await bot_user.get_client).id

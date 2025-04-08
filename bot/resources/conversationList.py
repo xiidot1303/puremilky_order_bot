@@ -1,4 +1,4 @@
-n = 9
+n = 10
 (
     SELECT_LANG,
     GET_NAME,
@@ -9,4 +9,5 @@ n = 9
     NAME_SETTINGS,
     PHONE_SETTINGS,
     GET_CLIENT_ID,
+    GET_FEEDBACK,
 ) = range(0, n)

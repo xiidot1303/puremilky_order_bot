@@ -71,7 +71,7 @@ class MinOrderAmountAdmin(admin.ModelAdmin):
 
 @admin.register(Feedback)
 class FeedbackAdmin(admin.ModelAdmin):
-    list_display = ['order', 'comment']
+    list_display = ['bot_user', 'order', 'comment']
 
 
 @admin.register(RecommendedOrder)
