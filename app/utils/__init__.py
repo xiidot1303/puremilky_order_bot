@@ -58,16 +58,17 @@ async def get_next_nearest_day_by_weekdays(weekdays):
     # Convert Russian weekday names to indices
     weekdays_indices = sorted(
         set(RUSSIAN_WEEKDAYS.index(day) for day in weekdays))
+    today = datetime.now()
+    today_index = today.weekday()  # Monday=0, Sunday=6
 
-    # Find the next closest day
-    for day in weekdays_indices:
-        if day > today_index:
-            days_difference = (day - today_index) % 7
-            return datetime.today() + timedelta(days=days_difference)
-
-    # If no day in the list is greater than or equal to today, wrap around to the first day
-    days_difference = (weekdays_indices[0] - today_index) % 7
-    return datetime.today() + timedelta(days=days_difference)
+    # Find the number of days until the next matching weekday (must be > 0)
+    days_until_next = min(
+        ( (weekday - today_index) % 7 or 7 )  # Avoid 0 to skip today
+        for weekday in weekdays_indices
+    )
+    
+    next_date = today + timedelta(days=days_until_next)
+    return next_date
 
 
 class DictToClass:
