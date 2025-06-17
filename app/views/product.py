@@ -11,7 +11,8 @@ class CategoryListView(APIView):
         client: Client = await Client.objects.aget(id=client_id)
 
         # get categories by region
-        categories = await sync_to_async(Category.objects.filter)(region=client.region)
+        product_categories = Product.objects.filter(remainder__gt=0, region=client.region).values_list('category', flat=True).distinct()
+        categories = await sync_to_async(Category.objects.filter)(region=client.region, id__in=product_categories)
 
         # Serialize the filtered products data
         serializer = CategorySerializer(categories, many=True)
