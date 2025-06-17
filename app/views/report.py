@@ -16,7 +16,7 @@ class ReconciliationActView(APIView):
         client: Client = await Client.objects.aget(id=client_id)
 
         try:
-            response = await get_act_sverki(client.uuid, start_period, end_period)
+            response = await get_act_sverki(client.uuid, start_period, end_period, region=client.region)
             pdf_base64 = response['data']
             pdf_data = base64.b64decode(pdf_base64)
             pdf_file = BytesIO(pdf_data)
